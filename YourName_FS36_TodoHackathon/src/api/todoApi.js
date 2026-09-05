@@ -1,0 +1,2 @@
+import { api } from './axios'
+export const fetchStarterTasks=async()=>{const{data}=await api.get('/todos?_limit=5');return data.map(item=>({id:crypto.randomUUID(),title:item.title.replace(/\b\w/g,c=>c.toUpperCase()),description:'Starter task imported through the dedicated API layer.',priority:item.id%3===0?'High':item.id%2===0?'Medium':'Low',dueDate:'',completed:item.completed,createdAt:new Date().toISOString()}))}

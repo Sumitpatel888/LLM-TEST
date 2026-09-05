@@ -1,0 +1,5 @@
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useTodos } from '../hooks/useTodos'
+import TaskForm from './TaskForm'
+export default function TaskList({tasks}){const{toggleTodo,deleteTodo}=useTodos();const[editing,setEditing]=useState(null);if(!tasks.length)return <div className="empty"><strong>No tasks found</strong><span>Try another filter or create a new task.</span></div>;return <><div className="task-list">{tasks.map(t=><article className={`task-card ${t.completed?'done':''}`} key={t.id}><button className="check" onClick={()=>toggleTodo(t.id)}>{t.completed?'✓':''}</button><div className="task-main"><Link to={`/task/${t.id}`}><h3>{t.title}</h3></Link><p>{t.description}</p><div className="task-meta"><span className={`priority ${t.priority.toLowerCase()}`}>{t.priority}</span>{t.dueDate&&<span>Due {t.dueDate}</span>}</div></div><div className="task-actions"><button onClick={()=>setEditing(t)}>Edit</button><button className="danger" onClick={()=>deleteTodo(t.id)}>Delete</button></div></article>)}</div>{editing&&<TaskForm task={editing} onClose={()=>setEditing(null)}/>}</>}

@@ -1,0 +1,2 @@
+import { useTodos } from '../hooks/useTodos';import TaskList from '../components/TaskList'
+export default function Completed(){const{filteredTodos}=useTodos();return <section><div className="section-head"><div><p className="kicker">ROUTE / COMPLETED</p><h2>Completed tasks</h2></div></div><TaskList tasks={filteredTodos.filter(t=>t.completed)}/></section>}

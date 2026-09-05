@@ -1,0 +1,4 @@
+import { useMemo,useState } from 'react'
+import { useTodos } from '../hooks/useTodos'
+import TaskList from '../components/TaskList'
+export default function Dashboard({onNew}){const{todos,filteredTodos}=useTodos();const[filter,setFilter]=useState('all');const visible=useMemo(()=>filteredTodos.filter(t=>filter==='all'||filter==='active'&&!t.completed||filter==='completed'&&t.completed),[filteredTodos,filter]);return <section><div className="section-head"><div><p className="kicker">YOUR WORKSPACE</p><h2>All tasks</h2></div><div className="counts"><span>{todos.length} total</span><span>{todos.filter(t=>!t.completed).length} active</span></div></div><div className="filters">{['all','active','completed'].map(x=><button className={filter===x?'selected':''} key={x} onClick={()=>setFilter(x)}>{x[0].toUpperCase()+x.slice(1)}</button>)}</div><TaskList tasks={visible}/><button className="add-inline" onClick={onNew}>＋ Add another task</button></section>}

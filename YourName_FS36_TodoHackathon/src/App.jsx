@@ -1,0 +1,10 @@
+import { useState } from 'react'
+import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import { useTodos } from './hooks/useTodos'
+import TaskForm from './components/TaskForm'
+import TaskList from './components/TaskList'
+import Dashboard from './pages/Dashboard'
+import Completed from './pages/Completed'
+import Stats from './pages/Stats'
+import TaskDetail from './pages/TaskDetail'
+export default function App(){const[showForm,setShowForm]=useState(false);const{search,setSearch,sort,setSort,apiLoading}=useTodos();return <div className="app-shell"><header className="topbar"><NavLink to="/" className="logo"><span>✓</span><div>SMART<span>TASKS</span></div></NavLink><nav className="main-nav"><NavLink end to="/">All Tasks</NavLink><NavLink to="/completed">Completed</NavLink><NavLink to="/stats">Stats</NavLink></nav><button className="primary" onClick={()=>setShowForm(true)}>＋ New Task</button></header><section className="hero"><div><p className="kicker">FS 36 • MINI HACKATHON</p><h1>Make progress.<br/><em>One task at a time.</em></h1><p className="hero-copy">A production-style task manager built with React Hooks, Context API, routing and persistent storage.</p></div><div className="hero-orb">{apiLoading?'SYNC':'READY'}<strong>∞</strong></div></section><div className="toolbar"><label className="search">⌕<input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search tasks..." /></label><select value={sort} onChange={e=>setSort(e.target.value)}><option value="newest">Newest</option><option value="priority">Priority</option><option value="title">Title A–Z</option></select></div><main><Routes><Route path="/" element={<Dashboard onNew={()=>setShowForm(true)}/>}/><Route path="/completed" element={<Completed/>}/><Route path="/stats" element={<Stats/>}/><Route path="/task/:id" element={<TaskDetail/>}/><Route path="*" element={<Navigate to="/" replace/>}/></Routes></main><footer><span>SMART TASK MANAGER</span><span>React • Context • Router • localStorage • Axios</span></footer>{showForm&&<TaskForm onClose={()=>setShowForm(false)}/>}</div>}
